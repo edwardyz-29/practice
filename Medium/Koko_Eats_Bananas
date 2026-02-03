@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        //searching for a rate at which we can finish all the bananas
+        //max amount of hours it takes is the sum of the bananas
+        //we should search for a min rate at which we can eat all the bananas under h hours
+        //if we take > h time that is too long, need a faster rate
+        int l = 1;
+        int r = *max_element(piles.begin(), piles.end());
+        int ans = INT_MAX;
+        
+        while(l <= r){
+            long hours = 0;
+            int m = (l+r) / 2;
+            
+            for(int n: piles){
+                hours += (n + (m-1)) / m;
+            }
+            
+            //if the number of hours we calculated is > h, we need to find a higher rate
+            if(hours > h){
+                l = m+1;
+            }
+            //else maybe there is a lower rate. at which 
+            else if(hours <= h){
+                r = m-1;
+                ans = min(m, ans);
+            }
+            else{
+                return m;
+            }
+            
+        }
+
+        return ans;
+
+    }
+};
