@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows==1) return s;
+        int idx = 0, row = 0, col = 0, n = s.size();
+        vector<vector<char>>zigzag(numRows,vector<char>((n+1)/2,' '));
+        while (idx < n){
+            while (idx < n && row < numRows){
+                zigzag[row++][col] = s[idx++];
+            }
+            row-=2;
+            col++;
+            while (idx < n && row > 0){
+                zigzag[row--][col++] = s[idx++];
+            }
+        }
+        string ans;
+        ans.reserve(n);
+        for (auto& row : zigzag){
+            for (char c : row){
+                if (c==' ') continue;
+                ans.push_back(c);
+            }
+        }
+        return ans;
+    }
+};
